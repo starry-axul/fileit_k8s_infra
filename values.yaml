@@ -1,0 +1,8 @@
+fileitWrite:
+  name: fileit-write
+  image:
+    url: ncostamagna/fileit_writer_ts_app
+    version: 0.0.1
+  port:
+    http: 3000
+  replicas: 1

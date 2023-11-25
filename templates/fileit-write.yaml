@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name}}-{{.Values.fileitWrite.name}}-api
+  labels:
+    app: {{.Values.fileitWrite.name}}
+    env: dev
+    project: axul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Values.fileitWrite.name}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.fileitWrite.name}}
+    spec:
+      containers:
+      - name: {{.Values.fileitWrite.name}}
+        image: {{.Values.fileitWrite.image.url}}:{{.Values.fileitWrite.image.version}}
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name}}-{{.Values.fileitWrite.name}}-api
+  labels:
+    app: {{.Values.fileitWrite.name}}
+    env: dev
+    project: axul
+spec:
+  type: NodePort
+  selector:
+    app: {{.Values.fileitWrite.name}}
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{.Values.fileitWrite.port.http}}
+      targetPort: {{.Values.fileitWrite.port.http}}
+      nodePort: 30003
